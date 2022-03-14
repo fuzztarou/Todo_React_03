@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.h1 {
+  margin: 10px 10px 10px 60px ;
+}
+
+.list_container {
+  text-align: left;
+}
+
+.button_submit {
+  margin: 10px 10px 10px 10px ;
+}
+
+.button {
+  margin: 10px 10px 10px 10px ;
+}
+
+.list_item {
+  width: 200px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
