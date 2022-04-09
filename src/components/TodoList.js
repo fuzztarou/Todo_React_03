@@ -7,7 +7,7 @@ function TodoList() {
     const iniArray = [];
 
     //URLの設定
-    let url = new URL("http://127.0.0.1:8000/api/items/");
+    let url = new URL("https://8q8pjzzazk.execute-api.ap-northeast-1.amazonaws.com/default/Todo_DynamoDB");
     url = url.toString();
 
     //stateの設定
@@ -16,8 +16,10 @@ function TodoList() {
 
     //fetchする関数
     const fetchData = async () => {
-        await fetch(url)
-        .then(response => response.json())
+        await fetch(url, {mode: 'cors'})
+        .then(response => response.json()
+        //#endregion
+        )
         .then(response => {
             setTodo(response)
             setInput('')
@@ -37,31 +39,26 @@ function TodoList() {
 
     //ボタンが押されたらPOSTするする
     const postData = async () => {
-
-        //POSTする内容の作成
-        const body_text = JSON.stringify({
-            item: input,
-        });
+        let input_item = input
+        url = new URL("?todo_item=" + input_item, url);
 
         //データのPOST
         await fetch(url, {
             method: "POST",
-            headers: {"Content-Type": "application/json",},
-            body: body_text,                        
+            mode: 'cors'
         })
 
         fetchData()
     }
 
-    const deleteData = async (id) => {
+    const deleteData = async (delete_item) => {
 
         //DELETE用URLの生成
-        let urlDel = url + id;
-        console.log(urlDel)
+        url = new URL("?todo_item=" + delete_item, url);
 
-        await fetch(urlDel, {
+        await fetch(url, {
             method: "DELETE",
-            headers: {"Content-Type": "application/json",},
+            mode: 'cors'
         })
 
         fetchData()
@@ -76,8 +73,8 @@ function TodoList() {
             <ul className="list_container">
                 {todos.map((todo) => (
                     <li className="list_item">
-                        ・{ todo.item }
-                        <button className="button" onClick={() => deleteData(todo.id)}>削除</button>
+                        ・{ todo.todo_item }
+                        <button className="button" onClick={() => deleteData(todo.todo_item)}>削除</button>
                     </li>
                 ))}
             </ul>
@@ -86,3 +83,4 @@ function TodoList() {
 }
 
 export default TodoList;
+
